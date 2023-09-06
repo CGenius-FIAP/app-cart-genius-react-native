@@ -2,15 +2,30 @@ import React from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CreateAcoount from '../../Screens/CreateAccount/CreateAccount'
 import FooterMenu from '../../components/FooterMenu';
 
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea} edges={['right', 'left']}>
       <LinearGradient colors={['#190C2A', '#822760']} style={styles.container}>
-        <Image source={require('../../../assets/logo.jpeg')} style={styles.logo} />
-        <Text style={styles.title}>Cart Genius</Text>
+        <Text style={styles.title}>Crie sua conta</Text>
+        <Text style={styles.label}>Nome</Text>
+        <TextInput
+          style={styles.input}
+          keyboardType="name"
+          backgroundColor="white"
+        />
+        <Text style={styles.label}>Endereço</Text>
+        <TextInput
+          style={styles.input}
+          backgroundColor="white"
+        />
+        <Text style={styles.label}>Telefone</Text>
+        <TextInput
+          style={styles.input}
+          keyboardType="phone"
+          backgroundColor="white"
+        />
         <Text style={styles.label}>E-mail</Text>
         <TextInput
           style={styles.input}
@@ -24,12 +39,8 @@ const Login = ({ navigation }) => {
           backgroundColor="white"
         />
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Entrar</Text>
+          <Text style={styles.buttonText}>Criar conta</Text>
         </TouchableOpacity>
-
-        <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
-        <Text style={styles.createAccount}>
-          Não tem uma conta? Crie uma <Text style={styles.hereLink} onPress={() => navigation.navigate('CreateAccount')}>aqui</Text>.</Text>
       </LinearGradient>
       <FooterMenu navigation={navigation} />
     </SafeAreaView>
@@ -118,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;
