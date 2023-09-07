@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FooterMenu from '../../components/FooterMenu';
 
 const ChatScreen = ({ navigation }) => {
+    const [userInput, setUserInput] = useState('');
+    const [response, setResponse] = useState('');
+
+    const callApi = async () => {
+        console.log("User input:", userInput); // Log the user input before making the API call
+        
+        fetch('http://192.168.0.102:5000/query', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query: userInput }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("Data received from API:", data);  // Log the data received from API
+            setResponse(data.response);
+        })
+        .catch((error) => {
+            console.error('Ocorreu um erro ao acessar a API:', error);
+        });
+    };
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['right', 'left']}>
       <LinearGradient colors={['#190C2A', '#822760']} style={styles.container}>
@@ -13,10 +36,18 @@ const ChatScreen = ({ navigation }) => {
         <TextInput
           style={styles.input}
           backgroundColor="white"
+          value={userInput}
+          onChangeText={(text) => setUserInput(text)}
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={callApi}>
           <Text style={styles.buttonText}>Fazer pedido</Text>
         </TouchableOpacity>
+        {response && (
+            <View>
+                <Text>Resposta da API</Text>
+                <Text>{response}</Text>
+            </View>
+        )}
       </LinearGradient>
       <FooterMenu navigation={navigation} />
     </SafeAreaView>
