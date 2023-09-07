@@ -4,6 +4,8 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'r
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FooterMenu from '../../components/FooterMenu';
+import { useNavigation } from '@react-navigation/native';
+import ResponseScreen from '../Response/ResponseScreen';
 
 const ChatScreen = ({ navigation }) => {
     const [userInput, setUserInput] = useState('');
@@ -28,6 +30,7 @@ const ChatScreen = ({ navigation }) => {
         .catch((error) => {
             console.error('Ocorreu um erro ao acessar a API:', error);
         });
+        navigation.navigate('ResponseScreen', { responses });
     };
 
     return (
@@ -44,7 +47,7 @@ const ChatScreen = ({ navigation }) => {
                 <TouchableOpacity style={styles.button} onPress={callApi}>
                     <Text style={styles.buttonText}>Fazer pedido</Text>
                 </TouchableOpacity>
-                <View style={styles.chatArea}>
+                {/* <View style={styles.chatArea}>
                     <FlatList
                         data={responses}
                         renderItem={({ item }) => (
@@ -52,7 +55,7 @@ const ChatScreen = ({ navigation }) => {
                         )}
                         keyExtractor={(item, index) => index.toString()}
                     />
-                </View>
+                </View> */}
             </LinearGradient>
             <FooterMenu navigation={navigation} />
         </SafeAreaView>
@@ -83,18 +86,18 @@ const styles = StyleSheet.create({
         paddingRight: 8,
         marginBottom: 5,
     },
-    chatArea: {
-        marginTop: 40,
-        paddingTop: 14,
-        paddingBottom: 14,
-        paddingLeft: 30,
-        paddingRight: 30,
-        backgroundColor: '#FFF',
-        width: '80%',
-        maxHeight: 320,
-        overflowY: 'auto',
-        borderRadius: 20
-    },
+    // chatArea: {
+    //     marginTop: 40,
+    //     paddingTop: 14,
+    //     paddingBottom: 14,
+    //     paddingLeft: 30,
+    //     paddingRight: 30,
+    //     backgroundColor: '#FFF',
+    //     width: '80%',
+    //     maxHeight: 320,
+    //     overflowY: 'auto',
+    //     borderRadius: 20
+    // },
     chatText: {
         marginBottom: 10,
     },
