@@ -1,6 +1,6 @@
 // http://192.168.0.102:5000/query
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FooterMenu from '../../components/FooterMenu';
@@ -8,43 +8,20 @@ import { useNavigation } from '@react-navigation/native';
 import ResponseScreen from '../Response/ResponseScreen';
 
 const ChatScreen = ({ navigation }) => {
-    const [userInput, setUserInput] = useState('');
-    const [responses, setResponses] = useState([]);
-
-    const callApi = async () => {
-        console.log("User input:", userInput); // Log the user input before making the API call
-        
-        fetch('http://192.168.0.102:5000/query', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query: userInput }),
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log("Data received from API:", data);  // Log the data received from API
-            // Adicione a nova resposta ao array de respostas
-            setResponses([...responses, data.response]);
-        })
-        .catch((error) => {
-            console.error('Ocorreu um erro ao acessar a API:', error);
-        });
-        navigation.navigate('ResponseScreen', { responses });
-    };
 
     return (
         <SafeAreaView style={styles.safeArea} edges={['right', 'left']}>
             <LinearGradient colors={['#190C2A', '#822760']} style={styles.container}>
+            <Image source={require('../../../assets/logo.jpeg')} style={styles.logo} />
                 <Text style={styles.title}>Cart Genius</Text>
-                <Text style={styles.label}>Faça seu pedido</Text>
+                {/* <Text style={styles.label}>Faça seu pedido</Text>
                 <TextInput
                     style={styles.input}
                     backgroundColor="white"
                     value={userInput}
                     onChangeText={(text) => setUserInput(text)}
-                />
-                <TouchableOpacity style={styles.button} onPress={callApi}>
+                /> */}
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ResponseScreen')}>
                     <Text style={styles.buttonText}>Fazer pedido</Text>
                 </TouchableOpacity>
                 {/* <View style={styles.chatArea}>
@@ -70,6 +47,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    logo: {
+      width: 150,
+      height: 150,
+      resizeMode: 'contain',
+      marginBottom: 10,
+      borderRadius: 100,
     },
     title: {
         fontSize: 40,
