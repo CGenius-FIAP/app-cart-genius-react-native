@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FooterMenu from '../../components/FooterMenu';
 import RNPickerSelect from 'react-native-picker-select';
+import axios from 'axios';
 import { ScrollView } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 
@@ -16,6 +17,7 @@ const CreateAccount = ({ navigation }) => {
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [cpf, setCpf] = useState('');
   const [cnpj, setCnpj] = useState('');
 
   const [emailError, setEmailError] = useState('');
@@ -33,7 +35,7 @@ const CreateAccount = ({ navigation }) => {
   }, [email, telefone]);
 
   const register = async () => {
-    let url = `http://192.168.0.104:8080/${personType}`; // URL dinâmica baseada no tipo de pessoa
+    let url = `http://192.168.0.102:8080/${personType}/`; // URL dinâmica baseada no tipo de pessoa
     let data;
 
     if (personType === 'clientes') {
@@ -41,6 +43,7 @@ const CreateAccount = ({ navigation }) => {
         nome,
         endereco,
         telefone,
+        cpf,
         email,
         senha,
       };
@@ -59,6 +62,8 @@ const CreateAccount = ({ navigation }) => {
       const response = await axios.post(url, data);
     } catch (error) {
       console.log(error.response.data);
+      console.log(url);
+      console.log(data);
     }
   };
 
@@ -106,6 +111,13 @@ const CreateAccount = ({ navigation }) => {
             value={telefone}
             onChangeText={(text) => setTelefone(text)}
             keyboardType="phone-pad"
+            backgroundColor="white"
+          />
+          <Text style={styles.label}>CPF</Text>
+          <TextInput
+            style={styles.input}
+            value={cpf}
+            onChangeText={(text) => setCpf(text)}
             backgroundColor="white"
           />
           <Text style={styles.label}>E-mail</Text>
