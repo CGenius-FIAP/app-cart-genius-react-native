@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const ResponseScreen = ({ route }) => {
+const ResponseScreen = ({ navigation }) => {
     const [userInput, setUserInput] = useState('');
-    const [responses, setResponses] = useState(route.params.responses);
+    const [responses, setResponses] = useState([]);
 
-    const sendUserInput = () => {
-        // Envie a userInput para a API e atualize as respostas
-        // Certifique-se de tratar a lógica da API e adicionar a resposta à lista responses
-        // Exemplo:
+    const callApi = async () => {
+        console.log("User input:", userInput);
+        
         fetch('http://192.168.0.102:5000/query', {
             method: 'POST',
             headers: {
@@ -19,40 +18,53 @@ const ResponseScreen = ({ route }) => {
         })
         .then((res) => res.json())
         .then((data) => {
+            console.log("Data received from API:", data);
             setResponses([...responses, data.response]);
         })
         .catch((error) => {
             console.error('Ocorreu um erro ao acessar a API:', error);
         });
-        setUserInput('');
     };
 
     return (
         <LinearGradient colors={['#190C2A', '#822760']} style={styles.container}>
-            <View>
+            <View style={[styles.firstView, { flex: 1 }]}>
+            <Text style={styles.responseText}>
+                <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Cart Genius: </Text>Olá, como posso te ajudar?
+            </Text>
                 <FlatList
                     data={responses}
                     renderItem={({ item }) => (
-                        <Text style={styles.responseText}>Cart Genius: {item}</Text>
+                        <Text style={styles.responseText}>
+                           <Text style={{ fontWeight: 'bold', fontSize: 17 }}>Cart Genius: </Text>{item}
+                        </Text>
                     )}
                     keyExtractor={(item, index) => index.toString()}
                 />
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        value={userInput}
-                        onChangeText={(text) => setUserInput(text)}
-                    />
-                    <TouchableOpacity style={styles.sendButton} onPress={sendUserInput}>
-                        <Text style={styles.sendButtonText}>Enviar</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.inputContainer}
+            >
+                <TextInput
+                    style={styles.input}
+                    value={userInput}
+                    onChangeText={(text) => setUserInput(text)}
+                />
+                <TouchableOpacity style={styles.sendButton} onPress={callApi}>
+                    <Text style={styles.sendButtonText}>Enviar</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
         </LinearGradient>
     );
 };
 
 const styles = StyleSheet.create({
+    firstView: {
+        paddingTop: 40,
+        maxHeight: 700,
+        overflowY: 'auto'
+    },
     container: {
         flex: 1,
         paddingTop: 80,
@@ -63,7 +75,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     responseText: {
-        marginBottom: 25,
+        marginBottom: 30,
         color: '#FFF',
         fontSize: 16
     },
