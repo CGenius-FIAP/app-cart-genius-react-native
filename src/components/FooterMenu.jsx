@@ -7,8 +7,8 @@ const FooterMenu = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate('Sobre')}>
         <Text style={styles.footerMenuItem}>Sobre</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Pedidos')}>
-        <Text style={styles.footerMenuItem}>Pedidos</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
+        <Text style={styles.footerMenuItem}>Cadastro</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.footerMenuItem}>Login</Text>
