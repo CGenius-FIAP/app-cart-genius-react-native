@@ -9,7 +9,7 @@ const ResponseScreen = ({ navigation }) => {
     const callApi = async () => {
         console.log("User input:", userInput);
         
-        fetch('http://192.168.0.102:5000/query', {
+        fetch('http://20.226.206.195:8000/query', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
