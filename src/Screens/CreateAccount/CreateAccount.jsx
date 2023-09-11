@@ -35,7 +35,7 @@ const CreateAccount = ({ navigation }) => {
   }, [email, telefone]);
 
   const register = async () => {
-    let url = `http://192.168.0.102:8080/${personType}/`; // URL dinâmica baseada no tipo de pessoa
+    let url = `https://rm94377webapp.azurewebsites.net/${personType}/`; // URL dinâmica baseada no tipo de pessoa
     let data;
 
     if (personType === 'clientes') {
