@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FooterMenu from '../../components/FooterMenu';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
+import { TextInputMask } from 'react-native-masked-text';
 import { ScrollView } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 
@@ -88,6 +89,9 @@ const CreateAccount = ({ navigation }) => {
           },
         }}
       />
+      <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Estilo para envolver os campos de e-mail e senha
+        >
       {personType === 'clientes' && (
         <>
           <Text style={styles.label}>Nome</Text>
@@ -106,29 +110,39 @@ const CreateAccount = ({ navigation }) => {
             backgroundColor="white"
           />
           <Text style={styles.label}>Telefone</Text>
-          <TextInput
+          <TextInputMask
+            type={'cel-phone'}
+            options={{
+              maskType: 'BRL',
+              withDDD: true,
+              dddMask: '(99) '
+            }}
             style={styles.input}
             value={telefone}
             onChangeText={(text) => setTelefone(text)}
             keyboardType="phone-pad"
             backgroundColor="white"
+            maxLength={15}
           />
           <Text style={styles.label}>CPF</Text>
           <TextInput
             style={styles.input}
             value={cpf}
             onChangeText={(text) => setCpf(text)}
+            keyboardType="phone-pad"
             backgroundColor="white"
+            maxLength={11}
           />
           <Text style={styles.label}>E-mail</Text>
-          {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
           <TextInput
             style={styles.input}
             value={email}
             onChangeText={(text) => setEmail(text)}
             keyboardType="email-address"
             backgroundColor="white"
+            onFocus={() => setEmailTouched(true)}
           />
+          {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
           <Text style={styles.label}>Senha</Text>
           <TextInput
             style={styles.input}
@@ -157,7 +171,13 @@ const CreateAccount = ({ navigation }) => {
             backgroundColor="white"
           />
           <Text style={styles.label}>Telefone</Text>
-          <TextInput
+          <TextInputMask
+            type={'cel-phone'}
+            options={{
+              maskType: 'BRL',
+              withDDD: true,
+              dddMask: '(99) '
+            }}
             style={styles.input}
             value={telefone}
             onChangeText={(text) => setTelefone(text)}
@@ -170,9 +190,9 @@ const CreateAccount = ({ navigation }) => {
             value={cnpj}
             onChangeText={(text) => setCnpj(text)}
             backgroundColor="white"
+            maxLength={14}
           />
           <Text style={styles.label}>E-mail</Text>
-          {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
           <TextInput
             style={styles.input}
             value={email}
@@ -180,6 +200,7 @@ const CreateAccount = ({ navigation }) => {
             keyboardType="email-address"
             backgroundColor="white"
           />
+          {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
           <Text style={styles.label}>Senha</Text>
           <TextInput
             style={styles.input}
@@ -193,6 +214,7 @@ const CreateAccount = ({ navigation }) => {
         <TouchableOpacity style={styles.button} onPress={register}>
           <Text style={styles.buttonText}>Criar conta</Text>
         </TouchableOpacity>
+        </KeyboardAvoidingView>
       </LinearGradient>
       <FooterMenu navigation={navigation} />
     </SafeAreaView>
@@ -235,7 +257,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    paddingTop: 60
+    paddingTop: 80
   },
   logo: {
     width: 150,
@@ -258,6 +280,12 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     marginBottom: 20,
+    minWidth: 300
+  },
+  error: {
+    color: 'red',
+    marginTop: -15,
+    marginBottom: 10
   },
   button: {
     backgroundColor: '#00072E',
@@ -272,13 +300,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
+    textAlign: 'center'
   },
   label: {
     color: 'white',
     fontSize: 14,
     fontWeight: 'bold',
     alignSelf: 'flex-start',
-    marginLeft: '10%',
     marginBottom: 5,
   },
   forgotPassword: {

@@ -58,10 +58,10 @@ const Login = ({ navigation }) => {
         {!showInputs && (
           <>
             <TouchableOpacity style={styles.button} onPress={() => choosePersonType('clientes')}>
-              <Text style={styles.buttonText}>Clientes</Text>
+              <Text style={styles.buttonText}>Cliente</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => choosePersonType('empresas')}>
-              <Text style={styles.buttonText}>Empresas</Text>
+              <Text style={styles.buttonText}>Empresa</Text>
             </TouchableOpacity>
           </>
         )}
@@ -131,17 +131,18 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#00072E',
-    paddingHorizontal: 60,
     paddingVertical: 20,
     borderRadius: 4,
     marginTop: 25,
     borderColor: '#FFFFFF',
     borderWidth: 1,
+    minWidth: 200,
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
+    textAlign: 'center'
   },
   label: {
     color: 'white',
